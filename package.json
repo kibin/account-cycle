@@ -1,0 +1,42 @@
+{
+  "name": "debijenkorf",
+  "version": "0.0.1",
+  "description": "account application",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rm -fr dist",
+    "start": "node dev_server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kibin/debijenkorf.git"
+  },
+  "author": "kibin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kibin/debijenkorf/issues"
+  },
+  "homepage": "https://github.com/kibin/debijenkorf#readme",
+  "dependencies": {
+    "@cycle/core": "^5.0.1",
+    "@cycle/dom": "^7.1.1",
+    "@cycle/history": "^1.1.0",
+    "@cycle/http": "^6.0.4",
+    "babel-core": "^5.8.25",
+    "ramda": "^0.18.0",
+    "rx": "^4.0.6"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.0.3",
+    "babel-loader": "^5.3.2",
+    "css-loader": "^0.19.0",
+    "express": "^4.13.3",
+    "postcss-loader": "^0.6.0",
+    "style-loader": "^0.12.4",
+    "stylus-loader": "^1.3.1",
+    "webpack": "^1.12.2",
+    "webpack-cli": "^1.0.0",
+    "webpack-dev-middleware": "^1.2.0",
+    "webpack-hot-middleware": "^2.4.1"
+  }
+}
