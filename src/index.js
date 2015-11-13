@@ -1,22 +1,30 @@
-import Cycle from '@cycle/core'
-import { makeDOMDriver } from '@cycle/dom'
+/* @flow */
 
-function main(drivers) {
+import Rx from 'rx'
+import R from 'ramda'
+import { run } from '@cycle/core'
+import { makeDOMDriver } from '@cycle/dom'
+import { makeHistoryDriver } from '@cycle/history'
+
+function main({ DOM }) {
   return {
-    DOM: drivers.DOM.select('input').events('click')
-      .map(ev => ev.target.checked)
-      .startWith(false)
-      .map(toggled =>
+    DOM: Rx.Observable.just(0)
+      .map(value =>
         <div>
-          <input type="checkbox" /> Toggle me
-          <p>{toggled ? 'ON' : 'off'}</p>
+          <div className='sidebar'>
+            <a className='sidebar-link' href='/details'>
+              Persoonlijke gegevens
+            </a>
+
+            <a className='sidebar-link' href='/wishlist'>
+              Verlanglijst
+            </a>
+          </div>
         </div>
       )
   };
 }
 
-let drivers = {
-  DOM: makeDOMDriver('#content')
-};
-
-Cycle.run(main, drivers);
+run(main, {
+  DOM: makeDOMDriver(`#content`)
+});
