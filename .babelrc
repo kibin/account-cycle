@@ -1,4 +1,12 @@
 {
-  "stage": 0,
-  "jsxPragma": "DOM.hJSX"
+  "presets": [
+    "es2015",
+    "stage-2",
+    "react"
+  ],
+  "plugins": [
+    ["transform-react-jsx", {
+      "pragma": "dom.hJSX"
+    }]
+  ]
 }
