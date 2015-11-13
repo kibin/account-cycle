@@ -19,7 +19,7 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
     new webpack.ProvidePlugin({
-      DOM: '@cycle/dom'
+      dom: '@cycle/dom'
     }),
   ],
   module: {
