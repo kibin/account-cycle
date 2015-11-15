@@ -22,6 +22,7 @@
     "@cycle/dom": "^7.1.1",
     "@cycle/fetch": "^4.0.0",
     "@cycle/history": "^1.1.0",
+    "hyperscript-helpers": "^2.0.2",
     "ramda": "^0.18.0",
     "rx": "^4.0.6"
   },

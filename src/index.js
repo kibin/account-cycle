@@ -10,21 +10,22 @@ import { makeFetchDriver } from '@cycle/fetch'
 import tags from './helpers/dom_helpers'
 import { getJSON } from './helpers/fetch'
 
-const { div } = tags;
+const { div, button } = tags;
 
-function main({ DOM, HTTP }) {
+function main({ DOM, HTTP, History }) {
   const users = `https://api.github.com/users`;
 
   const requests$ = Rx.Observable.just({
     url: users,
   });
 
+  const refresh$ = DOM.select(`.refresh`).events(`click`)
+
   const dom$ = getJSON({ url: users }, HTTP)
     .startWith(`Loading...`)
     .map(value => {
-      console.log(value);
-
       return div([
+
         R.is(String, value)
           ? value
           : R.map(val => div(JSON.stringify(val)), value)
@@ -40,4 +41,5 @@ function main({ DOM, HTTP }) {
 run(main, {
   DOM: makeDOMDriver(`#content`),
   HTTP: makeFetchDriver(),
+  History: makeHistoryDriver(),
 });
