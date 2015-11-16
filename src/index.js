@@ -9,19 +9,30 @@ import { makeFetchDriver } from '@cycle/fetch'
 
 import tags from './helpers/dom_helpers'
 import { getJSON } from './helpers/fetch'
+import { rand } from './helpers/common'
 
 const { div, button } = tags;
 
 function main({ DOM, HTTP, History }) {
   const users = `https://api.github.com/users`;
 
-  const requests$ = Rx.Observable.just({
-    url: users,
-  });
-
   const refresh$ = DOM.select(`.refresh`).events(`click`)
 
-  const dom$ = getJSON({ url: users }, HTTP)
+  const request$ = refresh$
+    .startWith(`click`)
+    .map(_ => ({
+      url: `${users}?since=${rand(500)}`,
+      key: `users`,
+    }))
+
+  const response$ = getJSON({ key: `users` }, HTTP)
+
+  // const close = DOM.
+
+  const suggestion$ = response$
+    .map(users => users[rand(users.length)])
+
+  const dom$ = response$
     .startWith(`Loading...`)
     .map(value => {
       return div([
