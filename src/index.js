@@ -11,7 +11,7 @@ import tags from './helpers/dom_helpers'
 import { getJSON } from './helpers/fetch'
 import { rand } from './helpers/common'
 
-const { div, button } = tags;
+const { div, button, span } = tags;
 
 function main({ DOM, HTTP, History }) {
   const users = `https://api.github.com/users`;
@@ -35,17 +35,18 @@ function main({ DOM, HTTP, History }) {
   const dom$ = response$
     .startWith(`Loading...`)
     .map(value => {
+      const ids = R.map(o => o.id, value)
       return div([
-
+        button(`.refresh`, `Refresh`),
         R.is(String, value)
           ? value
-          : R.map(val => div(JSON.stringify(val)), value)
+          : R.map(val => span(`${val} | `), ids)
       ]);
     })
 
   return {
     DOM: dom$,
-    HTTP: requests$,
+    HTTP: request$,
   };
 }
 
