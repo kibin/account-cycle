@@ -11,7 +11,7 @@ import tags from 'helpers/dom'
 import { getJSON } from 'helpers/fetch'
 import { rand } from 'helpers/common'
 
-const { div, button, span } = tags;
+const { div, button, span, img } = tags;
 
 function main({ DOM, HTTP, History }) {
   const users = `https://api.github.com/users`;
@@ -44,7 +44,9 @@ function main({ DOM, HTTP, History }) {
       return div([
         div(`.header`, [
           `Who to follow`,
+          ` · `,
           button(`.refresh`, `Refresh`),
+          ` · `,
           button(`.view-all`, `View all`),
         ]),
 
