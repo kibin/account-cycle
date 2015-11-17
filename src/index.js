@@ -18,6 +18,8 @@ function main({ DOM, HTTP, History }) {
 
   const refresh$ = DOM.select(`.refresh`).events(`click`)
 
+  const close$ = DOM.select(`.close`).events(`click`)
+
   const request$ = refresh$
     .startWith(`click`)
     .map(_ => ({
@@ -26,8 +28,6 @@ function main({ DOM, HTTP, History }) {
     }))
 
   const response$ = getJSON({ key: `users` }, HTTP)
-
-  // const close = DOM.
 
   const suggestion$ = response$
     .map(users => users[rand(users.length)])
