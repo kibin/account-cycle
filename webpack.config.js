@@ -33,4 +33,9 @@ module.exports = {
   postcss: [
     autoprefixer({ browsers: [ 'last 2 versions' ] }),
   ],
+  resolve: {
+    root: [
+      `${__dirname}/src/`,
+    ]
+  }
 };
