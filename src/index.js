@@ -10,7 +10,8 @@ import { makeFetchDriver } from '@cycle/fetch'
 
 import tags from 'helpers/dom'
 import { getJSON } from 'helpers/fetch'
-import { rand } from 'helpers/common'
+import { rand, randVals } from 'helpers/common'
+import { loaderWrapper } from 'helpers/loader'
 
 const { div, button, span, img } = tags;
 
@@ -20,6 +21,10 @@ function main({ DOM, HTTP, History }) {
   const refresh$ = DOM.select(`.refresh`).events(`click`)
 
   // const close$ = DOM.select(`.close`).events(`click`)
+  const response$ = getJSON({ key: `users` }, HTTP)
+
+  const userUrl$ = response$
+    .map(R.compose(R.pluck(`url`), randVals(3)))
 
   const request$ = refresh$
     .startWith(`initial`)
@@ -28,7 +33,7 @@ function main({ DOM, HTTP, History }) {
       key: `users`,
     }))
 
-  const response$ = getJSON({ key: `users` }, HTTP)
+  // Load request$, take their output, load userUrl$
 
   // const suggestion$ = close$
   //   .startWith(`initial`)
@@ -38,11 +43,9 @@ function main({ DOM, HTTP, History }) {
 
 
   const dom$ = response$
-    .startWith(`Loading...`)
-    .map(value => {
-      console.log(value)
-      const ids = R.map(o => o.id, value)
-      return div(`.content`, [
+    .startWith(null)
+    .map(loaderWrapper(users =>
+      div(`.content`, [
         div(`.header`, [
           `Who to follow`,
           ` · `,
@@ -52,18 +55,22 @@ function main({ DOM, HTTP, History }) {
         ]),
 
         div(`.users`, [
-          div(`.user`, [
-            img(`.user-pic`, { src: `null` }),
+          (user =>
+            div(`.user`, [
+              img(`.user-pic`, {
+                src: R.prop(`avatar_url`, user)
+              }),
 
-            div(`.user-content`, [
-              span(`.user-name`, `UserName`),
-              span(`.user-nick`, `UserNick`),
-              button(`.user-close`, `Close`),
-            ]),
-          ]),
+              span(`.user-content`, [
+                span(`.user-name`, `UserName`),
+                span(`.user-nick`, `@usernick`),
+                button(`.user-close`, `Ø`),
+              ]),
+            ])
+          )(R.head(users)),
         ]),
-      ]);
-    })
+      ]),
+    ))
 
   return {
     DOM: dom$,
