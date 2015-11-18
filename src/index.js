@@ -1,4 +1,5 @@
 /* @flow */
+import './index.styl'
 
 import Rx from 'rx'
 import R from 'ramda'
@@ -41,7 +42,7 @@ function main({ DOM, HTTP, History }) {
     .map(value => {
       console.log(value)
       const ids = R.map(o => o.id, value)
-      return div([
+      return div(`.content`, [
         div(`.header`, [
           `Who to follow`,
           ` · `,
