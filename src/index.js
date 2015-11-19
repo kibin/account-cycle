@@ -20,11 +20,11 @@ function main({ DOM, HTTP, History }) {
 
   const refresh$ = DOM.select(`.refresh`).events(`click`)
 
-  // const close$ = DOM.select(`.close`).events(`click`)
   const response$ = getJSON({ key: `users` }, HTTP)
 
   const userUrl$ = response$
-    .map(R.compose(R.pluck(`url`), randVals(3)))
+    // .map(R.compose(R.pluck(`url`), randVals(3)))
+    .startWith(null)
 
   const request$ = refresh$
     .startWith(`initial`)
@@ -32,15 +32,8 @@ function main({ DOM, HTTP, History }) {
       url: `${users}?since=${rand(500)}`,
       key: `users`,
     }))
-
-  // Load request$, take their output, load userUrl$
-
-  // const suggestion$ = close$
-  //   .startWith(`initial`)
-  //   .combineLatest(response$,
-  //     (click, list) => users[rand(users.length)])
-  //   .map(val => console.log(val))
-
+    .merge(userUrl$)
+    .tap((args) => console.log(args))
 
   const dom$ = response$
     .startWith(null)
