@@ -23,7 +23,10 @@ function main({ DOM, HTTP, History }) {
   const response$ = getJSON({ key: `users` }, HTTP)
 
   const userUrl$ = response$
-    // .map(R.compose(R.pluck(`url`), randVals(3)))
+    .map(users => ({
+      url: R.prop(`url`, R.head(users)),
+      key: `user`,
+    }))
     .startWith(null)
 
   const request$ = refresh$
